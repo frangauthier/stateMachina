@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmqa7jaw0ek4d"]
+
+[ext_resource type="PackedScene" uid="uid://dm2x1vmu6vrpw" path="res://Assets/mannequiny/mannequiny-0.3.0.glb" id="1_s6p0h"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hepel"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_xq514"]
+sky_material = SubResource("ProceduralSkyMaterial_hepel")
+
+[sub_resource type="Environment" id="Environment_dq7ch"]
+background_mode = 2
+sky = SubResource("Sky_xq514")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kpumd"]
+size = Vector2(50, 50)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_oop0k"]
+data = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, 25, -25, 0, -25, 25, 0, -25)
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dq7ch")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_kpumd")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_oop0k")
+
+[node name="Character" parent="." instance=ExtResource("1_s6p0h")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Character"]
+transform = Transform3D(-1, -1.608e-08, -8.89143e-08, -3.21601e-08, 0.982939, 0.183934, 8.44397e-08, 0.183934, -0.982939, 4.67794e-07, 1.8368, -2.81409)
